@@ -7,19 +7,41 @@ var spotifyApi = new SpotifyWebApi({
   clientId: '5e1e2cc3a0dd422eb11244d00e3bb9a1',
   clientSecret: 'dd40c479a6fc4ab089e26ec268fdfcb0'
 });
+
 export var newReleases = spotifyApi.clientCredentialsGrant(authorizationCode)
   .then(function (data) {
-    // console.log('Retrieved access token', data.body['access_token']);
-    // console.log('The token expires in ' + data.body['expires_in']);
-    // console.log('The access token is ' + data.body['access_token']);
     spotifyApi.setAccessToken(data.body['access_token']);
     return spotifyApi.getNewReleases({ limit: 1, offset: 0, country: 'US' })
   })
   .then(function (data) {
+
     var albumName = data.body.albums.items[0].name;
     var releaseDate = data.body.albums.items[0].release_date;
     var artistName = data.body.albums.items[0].artists[0].name;
     var spotifyUrl = data.body.albums.items[0].artists[0].external_urls.spotify;
+
+    async () => {
+      logger.info('Preparing tweet for new album releases:');
+      const status = await buildTweetStatus();
+      logger.info('Posting tweet for a new release');
+      console.log(status);
+    };
+    
+    const buildTweetStatus = async () => {
+      return `
+    🔥 New Album Releases 🚀
+    ${releaseDate}
+  
+    ${artistName}
+
+    ${albumName}
+
+    ${spotifyUrl}
+    
+    #releases #albums #musiclackey
+    `;
+    };
+
     console.log(data.body.albums.items[0].name);
     console.log(data.body.albums.items[0].release_date);
     console.log(data.body.albums.items[0].artists[0].name)

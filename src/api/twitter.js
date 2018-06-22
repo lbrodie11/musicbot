@@ -16,10 +16,10 @@ const {
 const place_id = '5a110d312052166f';
 
 const client = new oauth.OAuth(
-  `${TWITTER_URL}/oauth/request_token`,
-  `${TWITTER_URL}/oauth/access_token`,
-  TWITTER_CONSUMER_KEY,
-  TWITTER_CONSUMER_SECRET,
+  `https://api.twitter.com/oauth/request_token`,
+  `https://api.twitter.com/oauth/access_token`,
+  'KTO6JqoU8TYB2ExKB7mUVm8gO',
+  'XTo95EQQysCApXc84DpdjhYBEqdutChBBLsuwhtRBJvZRm5EtW',
   '1.0A',
   null,
   'HMAC-SHA1'
@@ -36,7 +36,7 @@ export const getTweets = userId =>
 export const tweet = status => post('/statuses/update', { status, place_id });
 
 export const tweetWithMedia = (status) =>
-  post('/statuses/update', { status, place_id });
+  post('/statuses/update', { status});
 
 export const deleteTweet = id => post(`/statuses/destroy/${id}`);
 
@@ -70,7 +70,7 @@ const request = (type, url, body, isUpload) => {
         return resolve(JSON.parse(res));
       }
     };
-    const args = [url, TWITTER_TOKEN, TWITTER_TOKEN_SECRET];
+    const args = [url, '1009817986360889344-hH2U92EfXPFqMVFlQhv3awHTQAhZN0', 'pokpHEePJN5gC4ZFEv6j3A4It3LAWsXje2YcCRf5g9gEx'];
     if (type === 'post') {
       args.push(body, 'application/x-www-form-urlencoded');
     }

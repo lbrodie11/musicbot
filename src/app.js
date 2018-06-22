@@ -3,6 +3,8 @@ import yargs from 'yargs';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
 
+import { tweet } from './api/twitter';
+
 import { removeAllTweets, tweetNewAlbumReleases } from './services/twitter';
 // import { runReleaseWatcher } from './services/release';
 // import {
@@ -67,6 +69,20 @@ const argv = yargs
     )
 
     .command(
+        'tweet-twitter',
+        'Tweet artist album info',
+        {
+            twitter: {
+                type: 'boolean',
+                description: 'Makes a tweet about album info'
+            }
+        },
+        async ({ twitter }) => {
+            await tweet("Hi");
+        }
+    )
+
+    .command(
         ['start'],
         'Run releasebot app, check for and tweet about new releases of projects',
         {
@@ -85,7 +101,7 @@ const argv = yargs
             app.use(express.static('public'));
             app.listen(8080);
             logger.info('Server started, port:', 8080);
-        }
+        }   
     )
     .option('debug', { type: 'boolean', description: 'Set debug log level' })
     .help().argv;
