@@ -25,6 +25,7 @@
     "now-env": "^3.0.4",
     "oauth": "^0.9.15",
     "query-params": "^0.0.1",
+    "spotify-web-api-node": "^3.1.1",
     "yargs": "^11.0.0"
   },
   "devDependencies": {

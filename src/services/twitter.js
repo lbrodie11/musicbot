@@ -5,6 +5,10 @@ import {
   deleteTweet,
 } from '../api/twitter';
 
+import {
+  newReleases
+} from '../api/spotify'
+
 // import { getChangelogAsImage } from './changelog';
 // import {
 //   getChangelogFileUrl,
@@ -27,3 +31,25 @@ export const removeAllTweets = async () => {
   }
   process.exit(0);
 };
+
+export const tweetNewAlbumReleases = async () => {
+  logger.info('Preparing tweet for new album releases:');
+  const status = await buildTweetStatus();
+  logger.info('Posting tweet for a new release');
+  console.log(status);
+};
+
+const buildTweetStatus = async () => {
+  // const { date, artist, albumName, spotifyLink} = project;
+  return `
+🔥 New Album Releases 🚀
+
+#releases #albums #musiclackey
+`;
+};
+
+// ${releaseDate}
+
+// ${artistName}
+// ${albumName}
+// ${spotifyUrl}

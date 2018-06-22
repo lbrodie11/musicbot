@@ -35,8 +35,8 @@ export const getTweets = userId =>
 
 export const tweet = status => post('/statuses/update', { status, place_id });
 
-export const tweetWithMedia = (status, mediaId) =>
-  post('/statuses/update', { status, place_id, media_ids: mediaId });
+export const tweetWithMedia = (status) =>
+  post('/statuses/update', { status, place_id });
 
 export const deleteTweet = id => post(`/statuses/destroy/${id}`);
 
