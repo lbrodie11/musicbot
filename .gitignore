@@ -4,3 +4,4 @@ now-secrets.json
 node_modules/
 .idea/
 test.json
+.env

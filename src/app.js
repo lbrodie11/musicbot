@@ -1,19 +1,18 @@
+require('dotenv').config();
 import 'now-env';
 import yargs from 'yargs';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
+const passport = require('./persistence/passport');
+const bodyparser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
+const session = require('express-session');
 
-import { tweet } from './api/twitter';
+import { tweet, tweetWithMedia } from './api/twitter';
 
 import { removeAllTweets, tweetNewAlbumReleases } from './services/twitter';
-// import { runReleaseWatcher } from './services/release';
-// import {
-//   initProjectData,
-//   removeAllProjectData,
-//   removeProjectLastVersion
-// } from './services/project';
-// import { getChangelogAsImage } from './services/changelog';
-// import { getChangelogImage } from './handlers/changelog';
+import { runReleaseWatcher } from './services/release';
 
 const logger = getLogger('App');
 
@@ -82,6 +81,13 @@ const argv = yargs
         }
     )
 
+    .command('get', 'make a get HTTP request', function (yargs) {
+        return yargs.option('url', {
+          alias: 'u',
+          default: 'http://yargs.js.org/'
+        })
+      })
+
     .command(
         ['start'],
         'Run releasebot app, check for and tweet about new releases of projects',
@@ -90,18 +96,37 @@ const argv = yargs
                 alias: 's',
                 type: 'string',
                 description: 'Cron style schedule',
-                default: '*/30 * * * *'
+                default: '*/1 * * * *'
             }
         },
         ({ debug, schedule }) => {
             configureLogger(debug);
-            //   runReleaseWatcher(schedule);
+            runReleaseWatcher(schedule);
+
+
 
             const app = express();
             app.use(express.static('public'));
+            app.use(cookieParser());
+            app.use(bodyparser.json());
+            app.use(methodOverride());
+            app.use(session({
+                secret: 'testsecret',
+                saveUninitialized: true,
+                resave: false,
+            }));
+            app.use(passport.initialize());
+            app.use(passport.session());
+            app.get(
+                'https://musiclackey.now.sh', passport.authenticate(
+                    'spotify',
+                    { scope: ['user-follow-read'], showDialog: false },
+                ),
+                () => { },
+            );
             app.listen(8080);
             logger.info('Server started, port:', 8080);
-        }   
+        }
     )
     .option('debug', { type: 'boolean', description: 'Set debug log level' })
     .help().argv;

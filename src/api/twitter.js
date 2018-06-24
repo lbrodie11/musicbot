@@ -33,7 +33,7 @@ export const getPlaceId = async query => {
 export const getTweets = userId =>
   get('/statuses/user_timeline', { user_id: userId });
 
-export const tweet = status => post('/statuses/update', { status, place_id });
+export const tweet = status => post('/statuses/update', { status});
 
 export const tweetWithMedia = (status) =>
   post('/statuses/update', { status});
