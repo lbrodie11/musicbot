@@ -12,9 +12,9 @@ passport.deserializeUser((obj, done) => {
 
 passport.use(new SpotifyStrategy(
   {
-    clientID: process.env.CLIENT_ID,
+    clientID: '5e1e2cc3a0dd422eb11244d00e3bb9a1',
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: 'https://musiclackey.now.sh',
+    callbackURL: 'http://localhost:8080/callback',
   },
   (accessToken, refreshToken, profile, done) => {
     User.findOrCreate(

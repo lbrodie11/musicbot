@@ -4,4 +4,8 @@ now-secrets.json
 node_modules/
 .idea/
 test.json
+test2.json
 .env
+src/persistence/passport.js
+src/services/spotifyLogin.js
+src/spotifyRouter.js

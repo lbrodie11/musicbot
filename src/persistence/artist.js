@@ -1,31 +1,34 @@
 import mongoose from 'mongoose';
 
-const Artist = mongoose.model('Project', {
+const Artist = mongoose.model('Artist', {
   artistName: String,
-  albumName: String,
-  releaseDate: String,
-  spotifyUrl: [String]
+  albums: [String]
 });
 
 export const findArtistNames = () =>
   Artist.find()
     .exec()
-    .then(artists => artists.map(a => a.name));
+    .then(artists => artists.map(a => a.artistName));
 
-export const findProjects = () => Project.find().exec();
+export const findAlbumNames = () =>
+  Artist.find()
+    .exec()
+    .then(artists => artists.map(al => al.albums))
 
-export const findProject = name => Project.findOne({ name }).exec();
+export const findArtists = () => Artist.find().exec();
 
-export const updateProjectVersions = (name, versions) =>
-  Project.findOneAndUpdate({ name }, { versions });
+export const findArtist = artistName => Artist.find({ artistName }).exec();
 
-export const insertProject = (name, repo, type, hashtags, versions) =>
-  Project.create({
-    name,
-    repo,
-    type,
-    hashtags: hashtags.split(',').map(h => h.trim()),
-    versions
+export const addArtistAlbum = (artistName, album) =>
+  Artist.findOneAndUpdate( {artistName}, {$push: { albums: album } });
+
+export const updateArtistAlbums = (artistName, albums) =>
+  Artist.findOneAndUpdate({ artistName }, { albums });
+
+export const insertArtist = (artistName, albums) =>
+  Artist.create({
+    artistName,
+    albums
   });
 
-export const removeProject = name => Project.remove({ name });
+export const removeArtist = artistName => Artist.remove({ artistName });

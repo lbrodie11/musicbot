@@ -8,8 +8,9 @@ const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const spotifyRouter = require('./spotifyRouter');
 
-import { tweet, tweetWithMedia } from './api/twitter';
+import { initArtistData, removeAllArtistData, removeArtistLastAlbum } from './services/artist';
 
 import { removeAllTweets, tweetNewAlbumReleases } from './services/twitter';
 import { runReleaseWatcher } from './services/release';
@@ -37,18 +38,26 @@ const argv = yargs
             twitter: {
                 type: 'boolean',
                 description: 'Removes all tweets from user timeline'
+            },
+            database: {
+              type: 'boolean',
+              description: 'Removes all artist data from database'
+            },
+            artist: {
+              type: 'string',
+              description: 'Removes last album of a artist'
             }
         },
-        async ({ twitter, database, project, debug }) => {
+        async ({ twitter, database, artist, debug }) => {
             configureLogger(debug);
             if (twitter) {
                 await removeAllTweets();
             }
             if (database) {
-                await removeAllProjectData();
+                await removeAllArtistData();
             }
-            if (project) {
-                await removeProjectLastVersion(project);
+            if (artist) {
+                await removeArtistLastAlbum(artist);
             }
         }
     )
@@ -68,29 +77,29 @@ const argv = yargs
     )
 
     .command(
-        'tweet-twitter',
-        'Tweet artist album info',
+        'init',
+        'Adds artists and initial albums to the database',
         {
-            twitter: {
-                type: 'boolean',
-                description: 'Makes a tweet about album info'
-            }
+          artistName: {
+            type: 'string',
+            description: 'Artistname, eg: Kanye West',
+            demandOption: true
+          },
+          albums: {
+            type: 'string',
+            description: 'Artist albums, eg: The Life of Pablo, Yeezus',
+            demandOption: true
+          }
         },
-        async ({ twitter }) => {
-            await tweet("Hi");
+        async ({ artistName, albums, debug }) => {
+          configureLogger(debug);
+          await initArtistData(artistName, albums);
         }
-    )
-
-    .command('get', 'make a get HTTP request', function (yargs) {
-        return yargs.option('url', {
-          alias: 'u',
-          default: 'http://yargs.js.org/'
-        })
-      })
+      )
 
     .command(
         ['start'],
-        'Run releasebot app, check for and tweet about new releases of projects',
+        'Run musicbot app, check for and tweet about new album releases of artists',
         {
             schedule: {
                 alias: 's',
@@ -103,29 +112,12 @@ const argv = yargs
             configureLogger(debug);
             runReleaseWatcher(schedule);
 
-
-
             const app = express();
             app.use(express.static('public'));
             app.use(cookieParser());
             app.use(bodyparser.json());
-            app.use(methodOverride());
-            app.use(session({
-                secret: 'testsecret',
-                saveUninitialized: true,
-                resave: false,
-            }));
-            app.use(passport.initialize());
-            app.use(passport.session());
-            app.get(
-                'https://musiclackey.now.sh', passport.authenticate(
-                    'spotify',
-                    { scope: ['user-follow-read'], showDialog: false },
-                ),
-                () => { },
-            );
-            app.listen(8080);
-            logger.info('Server started, port:', 8080);
+            app.listen(8083);
+            logger.info('Server started, port:', 8083);
         }
     )
     .option('debug', { type: 'boolean', description: 'Set debug log level' })

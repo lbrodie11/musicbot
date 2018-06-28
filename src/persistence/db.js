@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
-const findOrCreate = require('mongoose-findorcreate');
+import mongoose from 'mongoose';
+import { getLogger } from 'log4js';
 
-// mongoose.connect(`mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASSWORD}@ds131329.mlab.com:31329/nextshow`);
+const logger = getLogger('Database');
 
-mongoose.connect(`mongodb://entbot:svnnZ0adVc5@ds263590.mlab.com:63590/zeitdb`);
+const { DB_URL, DB_USER, DB_PASSWORD } = process.env;
 
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: {
-    type: String,
-    lowercase: true,
-  },
-  password: String,
-  spotifyId: String,
-  spotifyAccessToken: String,
-});
+mongoose.set('debug', logger.debug.bind(logger, 'EXEC'));
 
-UserSchema.plugin(findOrCreate);
+let connection;
 
-module.exports = mongoose.model('User', UserSchema);
+export const initDb = async () => {
+  if (!connection) {
+    logger.info('CONNECTING...');
+    connection = await mongoose.connect(
+      `mongodb://musicbot:musicbot123@ds219191.mlab.com:19191/musiclackey`
+    );
+    logger.info('CONNECTION OK');
+  }
+  return connection;
+};
