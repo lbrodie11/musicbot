@@ -2,11 +2,7 @@
     "public": true,
     "alias": "musiclackey",
     "env": {
-      "DB_URL": "@db_url",
-      "DB_USER": "@db_user",
-      "DB_PASSWORD": "@db_password",
       "SPOTIFY_URL": "https://api.spotify.com",
-      "SPOTIFY_TOKEN": "@spotify_token ",
       "TWITTER_URL": "https://api.twitter.com",
       "TWITTER_VERSION": "/1.1",
       "TWITTER_CONSUMER_KEY": "@twitter_consumer_key",

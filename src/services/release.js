@@ -33,14 +33,14 @@ export const runReleaseWatcher = cronSchedule => {
             await initDb();
             logger.info(`Execution #${++counterExec} starts`);
             const artists = await getFollowedArtists();
-            logger.info('Artists:', artists.body.artists.total);
+            logger.info(`Total Artists I'm Following: ${artists.body.artists.total}`);
             var objArray = await artists.body.artists.items;
             var artistIds = await objArray.map(a => a.id);
             logger.info('Get Artist albums initialized');
             const artistsNames = await findArtistNames();
             const albumNames = await findAlbumNames();
-            logger.info(albumNames);
-            logger.info(artistsNames);
+            logger.info(`Albums in Database:  ${albumNames}`);
+            logger.info(`Artists in Database: ${artistsNames}`);
             var newRelease = [];
             for (var i = 0; i < artistIds.length; i++) {
                 var artistAlbum = await getArtistAlbums(artistIds[i]);
@@ -51,22 +51,14 @@ export const runReleaseWatcher = cronSchedule => {
                 var releaseDate = new Date(date);
                 var currentDate = new Date();
                 var testDate = new Date('2018-06-9');
-                logger.info(artist);
-                if (releaseDate <= testDate) {
-                    logger.info('************** Not a new Album ****************')
-                } else if (releaseDate >= testDate && !artistsNames.includes(artistName)) {
-                    logger.info('******************** New artist and new release ****************************')
+                if (releaseDate >= testDate && !artistsNames.includes(artistName)) {
+                    logger.info(`Adding New Artist & New Album:  ${artistAlbum} `)
                     await newRelease.push(artistAlbum);
                     insertArtist(artistName, artistAlbumName)
-                } else if (albumNames.find(el => el[0] === artistAlbumName) && releaseDate >= testDate) {
-                    logger.info('******************** Album in database ****************************')
-                } else if ( releaseDate >= testDate && albumNames.find(el => el[0] !== artistAlbumName)) {
-                    logger.info('******************** Artist Album Name not in database and New Release ****************************')
-                    logger.info(artistAlbumName);
+                }else if (releaseDate >= testDate && !albumNames.find(el => el[0] === artistAlbumName)) {
+                    logger.info(`Adding new Album to Database:  ${artistAlbumName}`);
                     await newRelease.push(artistAlbum);
                     await updateArtistAlbums(artistName, artistAlbumName)
-                }else {
-                    logger.info('not sure')
                 }
             }
             await newRelease.forEach((element, index, array) => {
@@ -86,13 +78,6 @@ export const runReleaseWatcher = cronSchedule => {
                 }, index * 10000);
             });
             logger.info(`Albums Releases since deployment: ${counterRelease}`);
-            Object.keys(releases).forEach(key =>
-                logger.info(
-                    `${key}: ${releases[key].length} (${
-                    releases[key][releases[key].length - 1]
-                    })`
-                )
-            );
             logger.info(`Execution end\n`);
         } catch (err) {
             if (err.statusCode === 401) {

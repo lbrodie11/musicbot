@@ -3,12 +3,8 @@ import 'now-env';
 import yargs from 'yargs';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
-const passport = require('./persistence/passport');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const methodOverride = require('method-override');
-const session = require('express-session');
-const spotifyRouter = require('./spotifyRouter');
 
 import { initArtistData, removeAllArtistData, removeArtistLastAlbum } from './services/artist';
 
@@ -105,7 +101,7 @@ const argv = yargs
                 alias: 's',
                 type: 'string',
                 description: 'Cron style schedule',
-                default: '*/1 * * * *'
+                default: '* * * 31 2 *'
             }
         },
         ({ debug, schedule }) => {
@@ -116,8 +112,8 @@ const argv = yargs
             app.use(express.static('public'));
             app.use(cookieParser());
             app.use(bodyparser.json());
-            app.listen(8083);
-            logger.info('Server started, port:', 8083);
+            app.listen(8080);
+            logger.info('Server started, port:', 8080);
         }
     )
     .option('debug', { type: 'boolean', description: 'Set debug log level' })

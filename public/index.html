@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53234284-6"></script>
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53234284-6"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -11,16 +12,75 @@
           gtag('config', 'UA-53234284-6');
         </script> -->
 
-        <title>Music Lackey - Release of new albums by music artists</title>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Music Lackey <span class="badge badge-danger">BETA</span></h1>
+    <title>Music Lackey - Release of new albums by music artists</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#c4932d">
+
+    <link rel="icon" type="image/png" href="/images/logo.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:100" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="branding">
+                <img class="logo" src="/images/logo.png" alt="Music Lackey" />
+                <h1>Music Lackey
+                    <span class="badge badge-danger">BETA</span>
+                </h1>
+
+                <p class="description">A Twitter bot that helps you to stay up to date with new album releases from popular artists</p>
+            </div>
         </div>
-        <div class="footer">
-            © <span class="year"></span> - Music Lackey by Laqwan Brodie
+        <div class="row">
+            <div class="col-md-6">
+                <div class="libraries">
+                    <img src="/images/ye.png" alt="Angular">
+                    <img src="/images/jorja.png" alt="React">
+                    <img src="/images/nasir.png" alt="Vue">
+                    <img src="/images/playboy-carti.png" alt="Ember.js">
+                    <img src="/images/redemption.png" alt="RxJS">
+                    <img src="/images/daytona.png" alt="Redux">
+                    <!-- <img src="/images/mobx.png" alt="MobX">
+                                <img src="/images/graphql.png" alt="GraphQL">
+                                <img src="/images/webpack.png" alt="Webpack">
+                                <img src="/images/typescript.png" alt="Typescript">
+                                <img src="/images/prettier.png" alt="Prettier"> -->
+                    <p>and many more...</p>
+                </div>
+                <div class="row">
+                    <p class="featured">Featured Playlist</p>
+                </div>
+
+                </row>
+                <div class="col-md-6">
+                    <div class="spotify">
+                        <iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX44t7uCdkV1A" width="300" height="80"
+                            frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="timeline">
+                    <a class="twitter-timeline" data-lang="en" data-theme="light" data-link-color="#c4932d" data-height="500" href="https://twitter.com/MusicLackey?ref_src=twsrc%5Etfw">
+                    </a>
+                </div>
+            </div>
         </div>
-        <script src="app.js"></script>
-        <script src="https://platform.twitter.com/widgets.js"></script>
-    </body>
+    </div>
+    </div>
+
+    <div class="footer">
+        ©
+        <span class="year"></span> - Music Lackey by Laqwan Brodie
+    </div>
+    <script src="app.js"></script>
+    <script src="https://platform.twitter.com/widgets.js"></script>
+</body>
+
 </html>

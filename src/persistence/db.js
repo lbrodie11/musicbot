@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 import { getLogger } from 'log4js';
 
 const logger = getLogger('Database');
