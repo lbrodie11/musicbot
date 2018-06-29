@@ -51,11 +51,6 @@ h1, h2, h3, h4 {
     margin-right: auto;
     font-size: 30px;
 }
-/* img.center {
-    display: block;
-     margin-left: auto;
-     margin-right: auto;
-  } */
 
 .branding h1 {
     display: block;
@@ -125,26 +120,12 @@ h1, h2, h3, h4 {
     padding: 10px 25px;
 }
 
-.signup {
-    overflow: hidden;
-    height: 0;
-    transition: height 0.5s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.signup iframe {
-    border: 0;
-    width: 80%;
-    margin: -20px;
-}
-
 .timeline {
     position: relative;
     margin: 5% 0;
     height: 500px;
     box-shadow: rgba(0, 0, 0, 0.55) 0 20px 68px;
+    width: 79%;
 }
 
 .footer {
@@ -187,6 +168,10 @@ h1, h2, h3, h4 {
         width:100%;
         margin-left:20px;
         margin-right:80px;
+    }
+
+    .timeline {
+        width: 100%;
     }
 }
 
