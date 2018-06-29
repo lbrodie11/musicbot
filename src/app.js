@@ -1,5 +1,5 @@
-require('dotenv').config();
-// import 'now-env';
+// require('dotenv').config();
+import 'now-env';
 import yargs from 'yargs';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
@@ -101,7 +101,7 @@ const argv = yargs
                 alias: 's',
                 type: 'string',
                 description: 'Cron style schedule',
-                default: '*/1 * * * *'
+                default: '* * * 31 2 *'
             }
         },
         ({ debug, schedule }) => {
