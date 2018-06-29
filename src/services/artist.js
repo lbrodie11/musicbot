@@ -10,24 +10,7 @@ export const initArtistData = async (
 ) => {
     try {
         await initDb();
-        // const names = await findArtistNames();
-        // const artist = await findArtist(artistName);
-        // const artists = await findArtists();
-        // logger.info(artist)
-        // logger.info(artists)
-        // logger.info(artists.names);
-        // const allAlbums = await findAlbumNames();
-        // logger.info(allAlbums)
-        // updateArtistAlbums(albums)
         await insertArtist(artistName, album);
-        // if(!artist.includes(album)){
-        //     logger.info('Adding artist new album');
-        //     await addArtistAlbum(album);
-        // }else{
-        //     logger.info('Not a new album')
-        //     // logger.info('Init new artist data', artistName, albums);
-        //     // await insertArtist(artistName, albums);
-        // }
         logger.info('Artist data initialized', artistName, album.length, 'albums');
     } catch (err) {
         logger.error('Artist data initialization failed', err);

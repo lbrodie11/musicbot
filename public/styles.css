@@ -97,14 +97,18 @@ h1, h2, h3, h4 {
 }
 
 .featured {
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 24px;
     margin-left:190px;
 }
 
-.spotify {
-    flex-wrap: wrap;
-    margin-left:100px;
+.soundcloud {
+ margin-left:110px
+}
+
+.soundcloud iframe {
+    width:120%; 
+    height:220px;
 }
 
 .actions {
@@ -155,7 +159,7 @@ h1, h2, h3, h4 {
     padding: 0 5px;
 }
 
-@media (max-width: 790px) {
+@media (max-width: 1000px) {
 
     .branding .logo {
         margin-right: 146px;
@@ -178,8 +182,10 @@ h1, h2, h3, h4 {
         margin-left:125px;
     }
 
-    .spotify {
-        margin-left:30px;
+    .soundcloud {
+        width:100%;
+        margin-left:20px;
+        margin-right:80px;
     }
 }
 

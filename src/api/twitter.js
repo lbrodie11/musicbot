@@ -4,22 +4,13 @@ import { getLogger } from 'log4js';
 
 const logger = getLogger('Twitter API');
 
-const {
-  TWITTER_URL,
-  TWITTER_VERSION,
-  TWITTER_CONSUMER_KEY,
-  TWITTER_CONSUMER_SECRET,
-  TWITTER_TOKEN,
-  TWITTER_TOKEN_SECRET
-} = process.env;
-
 const place_id = '5a110d312052166f';
 
 const client = new oauth.OAuth(
-  `https://api.twitter.com/oauth/request_token`,
-  `https://api.twitter.com/oauth/access_token`,
-  'KTO6JqoU8TYB2ExKB7mUVm8gO',
-  'XTo95EQQysCApXc84DpdjhYBEqdutChBBLsuwhtRBJvZRm5EtW',
+  `${process.env.TWITTER_URL}/oauth/request_token`,
+  `${process.env.TWITTER_URL}/oauth/access_token`,
+  process.env.TWITTER_CONSUMER_KEY,
+  process.env.TWITTER_CONSUMER_SECRET,
   '1.0A',
   null,
   'HMAC-SHA1'
@@ -33,10 +24,10 @@ export const getPlaceId = async query => {
 export const getTweets = userId =>
   get('/statuses/user_timeline', { user_id: userId });
 
-export const tweet = status => post('/statuses/update', { status});
+export const tweet = status => post('/statuses/update', { status });
 
 export const tweetWithMedia = (status) =>
-  post('/statuses/update', { status});
+  post('/statuses/update', { status });
 
 export const deleteTweet = id => post(`/statuses/destroy/${id}`);
 
@@ -70,7 +61,7 @@ const request = (type, url, body, isUpload) => {
         return resolve(JSON.parse(res));
       }
     };
-    const args = [url, '1009817986360889344-hH2U92EfXPFqMVFlQhv3awHTQAhZN0', 'pokpHEePJN5gC4ZFEv6j3A4It3LAWsXje2YcCRf5g9gEx'];
+    const args = [url, process.env.TWITTER_TOKEN,process.env.TWITTER_TOKEN_SECRET];
     if (type === 'post') {
       args.push(body, 'application/x-www-form-urlencoded');
     }
