@@ -1,14 +1,14 @@
 import { getLogger } from 'log4js';
-import { log } from 'util';
+
 import {
   getTweets,
   deleteTweet,
   tweet
 } from '../api/twitter';
 
-const { TWITTER_USER_ID } = process.env;
-
 const logger = getLogger('Twitter Service');
+
+const { TWITTER_USER_ID } = process.env;
 
 export const removeAllTweets = async () => {
   try {
@@ -23,27 +23,26 @@ export const removeAllTweets = async () => {
 };
 
 export const tweetNewAlbumReleases = async (albumInfo) => {
-  var currentDate = new Date();
+  var currentDate = await new Date();
   logger.info('Preparing tweet for latest album releases for: ' + currentDate);
   const status = await buildTweetStatus(albumInfo);
   logger.info('Posting tweet for a new release');
   logger.info(status);
-  // await console.log(status);
-  // await tweet(status);
-}
+  await tweet(status);
+};
 
-const buildTweetStatus = async (albumInfo) => {
+const buildTweetStatus = (albumInfo) => {
   const { releaseDate, artistName, albumName, spotifyUrl } = albumInfo;
-  return `
-    🎵 New Album Releases 🔥 
-  
-    📅 ${releaseDate}
-  
-    🎙️ Artist: ${artistName}
-  
-    💿 Album: ${albumName}
-  
-    🔗 ${spotifyUrl}
-      #music #album #musiclackey #${artistName.replace(/ /g, '')}
-      `;
+return `
+🎵 New Album Releases 🔥 
+
+📅 ${releaseDate}
+
+🎙️ Artist: ${artistName}
+
+💿 Album: ${albumName}
+
+🔗 ${spotifyUrl}
+#music #album #musiclackey #${artistName.replace(/ /g, '')}
+`;
 };

@@ -3,8 +3,6 @@ import 'now-env';
 import yargs from 'yargs';
 import express from 'express';
 import { configure, getLogger } from 'log4js';
-const bodyparser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
 import { initArtistData, removeAllArtistData, removeArtistLastAlbum } from './services/artist';
 
@@ -101,7 +99,7 @@ const argv = yargs
                 alias: 's',
                 type: 'string',
                 description: 'Cron style schedule',
-                default: '* * * 31 2 *'
+                default: '*/240 * * * *'
             }
         },
         ({ debug, schedule }) => {
@@ -110,8 +108,6 @@ const argv = yargs
 
             const app = express();
             app.use(express.static('public'));
-            app.use(cookieParser());
-            app.use(bodyparser.json());
             app.listen(8080);
             logger.info('Server started, port:', 8080);
         }

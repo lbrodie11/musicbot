@@ -4,13 +4,20 @@ import { getLogger } from 'log4js';
 
 const logger = getLogger('Twitter API');
 
-const place_id = '5a110d312052166f';
+const {
+  TWITTER_URL,
+  TWITTER_VERSION,
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
+  TWITTER_TOKEN,
+  TWITTER_TOKEN_SECRET
+} = process.env;
 
 const client = new oauth.OAuth(
-  `${process.env.TWITTER_URL}/oauth/request_token`,
-  `${process.env.TWITTER_URL}/oauth/access_token`,
-  process.env.TWITTER_CONSUMER_KEY,
-  process.env.TWITTER_CONSUMER_SECRET,
+  `${TWITTER_URL}/oauth/request_token`,
+  `${TWITTER_URL}/oauth/access_token`,
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
   '1.0A',
   null,
   'HMAC-SHA1'
@@ -26,8 +33,8 @@ export const getTweets = userId =>
 
 export const tweet = status => post('/statuses/update', { status });
 
-export const tweetWithMedia = (status) =>
-  post('/statuses/update', { status });
+export const tweetWithMedia = (status, mediaId) =>
+  post('/statuses/update', { status, place_id, media_ids: mediaId });
 
 export const deleteTweet = id => post(`/statuses/destroy/${id}`);
 
@@ -61,7 +68,7 @@ const request = (type, url, body, isUpload) => {
         return resolve(JSON.parse(res));
       }
     };
-    const args = [url, process.env.TWITTER_TOKEN,process.env.TWITTER_TOKEN_SECRET];
+    const args = [url, TWITTER_TOKEN, TWITTER_TOKEN_SECRET];
     if (type === 'post') {
       args.push(body, 'application/x-www-form-urlencoded');
     }
