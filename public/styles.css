@@ -141,7 +141,76 @@ h1, h2, h3, h4 {
     padding: 0 5px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 991px) {
+
+    .branding .logo {
+        margin-right: 260px;
+    }
+
+    .branding h1 {
+        margin-right: 220px;
+    }
+
+    .description {
+        text-align: center;
+        margin-right: 20px;
+        margin-left: 20px;
+        font-size: 20px;
+    }
+
+    .featured {
+        margin-top: 0px;
+        font-size: 24px;
+        margin-left:100px;
+    }
+
+    .soundcloud {
+        width:77%;
+        margin-left:20px;
+        margin-right:80px;
+    }
+
+    .timeline {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 767px) {
+
+    .branding .logo {
+        margin-right: 165px;
+    }
+
+    .branding h1 {
+        margin-right: 120px;
+    }
+
+    .description {
+        text-align: center;
+        margin-right: 20px;
+        margin-left: 20px;
+        font-size: 20px;
+    }
+
+    .featured {
+        margin-top: 20px;
+        font-size: 24px;
+        margin-left:125px;
+    }
+
+    .soundcloud {
+        width:77%;
+        margin-left:20px;
+        margin-right:80px;
+    }
+
+    .timeline {
+        width: 100%;
+    }
+}
+
+@media (max-width: 433px) {
 
     .branding .logo {
         margin-right: 146px;
