@@ -1,36 +1,38 @@
 // Figure out a way to find if the artist database object inncludes the albumname that is passed in
-
 import schedule from 'node-schedule';
 import { getLogger } from 'log4js';
-
 import { initDb } from '../persistence/db';
 import { tweetNewAlbumReleases } from './twitter';
 import { findArtistNames, findAlbumNames } from '../persistence/artist';
 
 import {
     getFollowedArtists,
-    setAccessToken,
     getNewReleases,
-    getSpotifyToken
+    refreshAccessToken,
+    setAccessToken
 } from '../api/spotify';
+
+const {
+    CODE
+} = process.env;
 
 const logger = getLogger('Release Service');
 
 let counterExec = 0;
 let counterRelease = 0;
+let jobSchedule = '*/240 * * * *'
 
-export const runReleaseWatcher = cronSchedule => {
-    logger.info('Setup scheduler with schedule', cronSchedule);
-    schedule.scheduleJob(cronSchedule, async () => {
+export const runReleaseWatcher = () => {
+    logger.info('Setup scheduler with schedule', jobSchedule);
+    schedule.scheduleJob(jobSchedule, async () => {
         try {
-            logger.info('Setting Access Token')
-            const getSpotifyAPIToken = await getSpotifyToken()
-            logger.info(getSpotifyAPIToken);
-            await setAccessToken(getSpotifyAPIToken);
-            logger.info('Access Token Set')
+            logger.info('Checking Access Token');
             await initDb();
             logger.info(`Execution #${++counterExec} starts`);
+            const refreshToken = refreshAccessToken();
+            setAccessToken(refreshToken.body['access_token']);
             const artists = await getFollowedArtists();
+            logger.info('Access Token Set');
             var artistIds = await artists.map(a => a.id);
             logger.info('Get Artist albums initialized');
             const artistsNames = await findArtistNames();
@@ -58,6 +60,7 @@ export const runReleaseWatcher = cronSchedule => {
             logger.info(`Execution end\n`);
         } catch (err) {
             if (err.statusCode === 401) {
+                logger.error(err);
                 logger.error(`Access token expired\n`);
             } else {
                 logger.error(err);

@@ -1,20 +1,39 @@
 import { getLogger } from 'log4js';
 const SpotifyWebApi = require('spotify-web-api-node');
-const puppeteer = require('puppeteer');
 import { insertArtist, updateArtistAlbums } from '../persistence/artist';
-
 const logger = getLogger('Spotify Service');
 
-var spotifyApi = new SpotifyWebApi();
+const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } = process.env;
 
-const {
-  EMAIL,
-  PASSWORD
-} = process.env;
+var spotifyApi = new SpotifyWebApi({
+    clientId: SPOTIFY_CLIENT_ID,
+    clientSecret: SPOTIFY_CLIENT_SECRET,
+    redirectUri: SPOTIFY_REDIRECT_URI
+});
 
-export const setAccessToken = (token) => {
-  spotifyApi.setAccessToken(token);
-};
+export const setAccessToken = (token) => (
+  spotifyApi.setAccessToken(token)
+);
+
+export const setRefreshToken = (token) => (
+  spotifyApi.setRefreshToken(token)
+);
+
+export const createAuthorizeURL = (scopes, state) => (
+  spotifyApi.createAuthorizeURL(scopes, state)
+);
+
+export const authorizationCodeGrant = (code) => (
+  spotifyApi.authorizationCodeGrant(code)
+);
+
+export const refreshAccessToken = () => (
+  spotify.refreshAccessToken()
+);
+
+export const getAccessToken = () => (
+  spotifyApi.getAccessToken()
+);
 
 export const getArtists = () => (
   spotifyApi.getUserPlaylists()
@@ -28,6 +47,7 @@ export const getArtists = () => (
 export const getFollowedArtists = async (after) => {
   logger.info('Get Followed Artists data initialized')
   const limit = 50
+  const type = 'artist';
 
   const response = await spotifyApi.getFollowedArtists({ limit, after })
   logger.info(`Total Artists I'm Following: ${response.body.artists.total}`);
@@ -40,6 +60,12 @@ export const getFollowedArtists = async (after) => {
     return artists
   }
 };
+
+// Future Feature
+
+export const getFeaturedPlaylists = async () => (
+  spotifyApi.getFeaturedPlaylists()
+);
 
 export const getUser = () => (
   spotifyApi.getMe()
@@ -71,64 +97,3 @@ export const getNewReleases = async (artistIds, artistsNames, albumNames) => {
   }
   return newReleases;
 };
-
-const
-  BASE_URL = 'https://developer.spotify.com/console/get-following/',
-  GET_TOKEN_BTN_SELECTOR = 'button[data-target="#oauth-modal"]',
-  USR_LIB_CHECKBOX_SELECTOR = '#scope-user-follow-read',
-  REQ_TOKEN_BTN_SELECTOR = '#oauthRequestToken',
-  LOGIN_BUTTON_SELECTOR = 'a.btn',
-  TOKEN_FIELD_SELECTOR = '#oauth-input',
-  EMAIL_FIELD_SELECTOR = '#email',
-  PASSWORD_FIELD_SELECTOR = '#pass',
-  FACEBOOK_LOGIN_BUTTON_SELECTOR = '#loginbutton',
-
-  FIVE_MINUTES_IN_MILLISECOUNDS = 1000 * 60 * 5
-
-export async function getSpotifyToken() {
-  const browser = await puppeteer.launch({
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-web-security',
-      '--user-data-dir'
-    ]
-  })
-  const page = await browser.newPage()
-
-  await page.goto(BASE_URL)
-  await page.click(GET_TOKEN_BTN_SELECTOR)
-  await page.waitForSelector(USR_LIB_CHECKBOX_SELECTOR, { visible: true })
-  await page.waitForSelector(REQ_TOKEN_BTN_SELECTOR, { visible: true })
-  await page.waitFor(1000)
-  await page.click(USR_LIB_CHECKBOX_SELECTOR)
-  await page.click(REQ_TOKEN_BTN_SELECTOR)
-  await page.waitForSelector(LOGIN_BUTTON_SELECTOR)
-  await page.click(LOGIN_BUTTON_SELECTOR)
-  await page.click(LOGIN_BUTTON_SELECTOR)
-  await page.waitFor(1000)
-  await page.focus(EMAIL_FIELD_SELECTOR)
-  await page.waitFor(1000)
-  await page.type(EMAIL_FIELD_SELECTOR, EMAIL)
-  await page.waitFor(1000)
-  await page.focus(PASSWORD_FIELD_SELECTOR)
-  await page.waitFor(1000)
-  await page.type(PASSWORD_FIELD_SELECTOR, PASSWORD)
-  await page.waitFor(5000)
-  await page.click(FACEBOOK_LOGIN_BUTTON_SELECTOR)
-
-  //USER LOGS IN
-
-  // await page.waitForSelector(TOKEN_FIELD_SELECTOR,
-  //   { timeout: FIVE_MINUTES_IN_MILLISECOUNDS })
-  await page.waitFor(10000)
-  const token_field_el = await page.$(TOKEN_FIELD_SELECTOR)
-  await page.waitFor(5000)
-  const token_field_property = await token_field_el.getProperty('value')
-  await page.waitFor(5000)
-  const token = await token_field_property.jsonValue()
-  await page.waitFor(5000)
-  await browser.close()
-  return token
-}
