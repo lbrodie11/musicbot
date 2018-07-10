@@ -13,7 +13,7 @@ export const initDb = async () => {
   if (!connection) {
     logger.info('CONNECTING...');
     connection = await mongoose.connect(
-      `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_URL}`
+      `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_URL}`, { useNewUrlParser: true }
     );
     logger.info('CONNECTION OK');
   }

@@ -32,17 +32,34 @@ export const tweetNewAlbumReleases = async (albumInfo) => {
 };
 
 const buildTweetStatus = (albumInfo) => {
-  const { releaseDate, artistName, albumName, spotifyUrl } = albumInfo;
-return `
-🎵 New Album Releases 🔥 
+  const { releaseDate, artistName, albumName, spotifyUrl, albumType } = albumInfo;
+  logger.info(`Album Type: ${albumType}`)
+  if(albumType === 'album') {
+    return `
+    🎵 New Album Release 🔥 
+    
+    📅 ${releaseDate}
+    
+    🎙️ Artist: ${artistName}
+    
+    💿 Album: ${albumName}
+    
+    🔗 ${spotifyUrl}
+    #music #album #musiclackey #${artistName.replace(/ /g, '')}
+    `;
+  }else {
+    return `
+    🎵 New Single Release 🔥 
+    
+    📅 ${releaseDate}
+    
+    🎙️ Artist: ${artistName}
+    
+    💿 Single: ${albumName}
+    
+    🔗 ${spotifyUrl}
+    #music #single #musiclackey #${artistName.replace(/ /g, '')}
+    `;
+  }
 
-📅 ${releaseDate}
-
-🎙️ Artist: ${artistName}
-
-💿 Album: ${albumName}
-
-🔗 ${spotifyUrl}
-#music #album #musiclackey #${artistName.replace(/ /g, '')}
-`;
 };

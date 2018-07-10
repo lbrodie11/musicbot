@@ -1,4 +1,3 @@
-// Figure out a way to find if the artist database object inncludes the albumname that is passed in
 import schedule from 'node-schedule';
 import { getLogger } from 'log4js';
 import { initDb } from '../persistence/db';
@@ -8,29 +7,23 @@ import { findArtistNames, findAlbumNames } from '../persistence/artist';
 import {
     getFollowedArtists,
     getNewReleases,
-    refreshAccessToken,
-    setAccessToken
+    refreshToken
 } from '../api/spotify';
-
-const {
-    CODE
-} = process.env;
 
 const logger = getLogger('Release Service');
 
 let counterExec = 0;
 let counterRelease = 0;
-let jobSchedule = '*/240 * * * *'
 
-export const runReleaseWatcher = () => {
-    logger.info('Setup scheduler with schedule', jobSchedule);
-    schedule.scheduleJob(jobSchedule, async () => {
+export const runReleaseWatcher = cronSchedule => {
+    logger.info('Setup scheduler with schedule', cronSchedule);
+    schedule.scheduleJob(cronSchedule, async () => {
         try {
             logger.info('Checking Access Token');
             await initDb();
             logger.info(`Execution #${++counterExec} starts`);
-            const refreshToken = refreshAccessToken();
-            setAccessToken(refreshToken.body['access_token']);
+            await refreshToken();
+            logger.info('Get Followed Artists data initialized')
             const artists = await getFollowedArtists();
             logger.info('Access Token Set');
             var artistIds = await artists.map(a => a.id);
@@ -47,7 +40,8 @@ export const runReleaseWatcher = () => {
                         albumName: element.body.items[0].name,
                         releaseDate: element.body.items[0].release_date,
                         artistName: element.body.items[0].artists[0].name,
-                        spotifyUrl: element.body.items[0].artists[0].external_urls.spotify
+                        spotifyUrl: element.body.items[0].artists[0].external_urls.spotify,
+                        albumType: element.body.items[0].album_type
                     }
                     var currentDate = new Date();
                     logger.info('Preparing tweet for new album releases for: ' + currentDate);
@@ -68,5 +62,4 @@ export const runReleaseWatcher = () => {
 
         }
     });
-
 }

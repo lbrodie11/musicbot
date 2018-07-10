@@ -1,7 +1,6 @@
 import { getLogger } from 'log4js';
 import { findArtist, updateArtistAlbums, removeArtist, insertArtist, findArtistNames, addArtistAlbum, findArtists, findAlbumNames } from '../persistence/artist';
 import { initDb } from '../persistence/db';
-import { getNewReleases } from '../api/spotify';
 const logger = getLogger('Artist Service');
 
 export const initArtistData = async (

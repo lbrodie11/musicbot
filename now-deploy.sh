@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 now \
-&& sleep 5 \
+&& sleep 10 \
 && now alias \
 && now scale musiclackey.now.sh bru1 0 \
 && now scale musiclackey.now.sh sfo1 1 \
