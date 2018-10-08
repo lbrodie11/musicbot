@@ -3,7 +3,6 @@ import qp from 'query-params';
 import { getLogger } from 'log4js';
 
 const logger = getLogger('Twitter API');
-
 const {
   TWITTER_URL,
   TWITTER_VERSION,

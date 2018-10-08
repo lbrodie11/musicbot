@@ -3,7 +3,6 @@ import { getLogger } from 'log4js';
 import { initDb } from '../persistence/db';
 import { tweetNewAlbumReleases } from './twitter';
 import { findArtistNames, findAlbumNames } from '../persistence/artist';
-
 import {
     getFollowedArtists,
     getNewReleases,

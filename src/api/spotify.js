@@ -70,8 +70,6 @@ export const getFollowedArtists = async (after) => {
   return artists
 };
 
-// Future Feature
-
 export const getFeaturedPlaylists = async () => (
   spotifyApi.getFeaturedPlaylists()
 );
@@ -85,25 +83,23 @@ export const getArtistAlbums = (artistId) => (
 );
 
 export const getNewReleases = async (artistIds, artistsNames, albumNames) => {
-
   const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   var newReleases = [];
-
   for (var i = 0; i < artistIds.length; i++) {
     var artistAlbum = await getArtistAlbums(artistIds[i]);
-    await delay(1000);
     var date = await artistAlbum.body.items[0].release_date;
     var artistName = await artistAlbum.body.items[0].artists[0].name;
     var artistAlbumName = await artistAlbum.body.items[0].name;
     var releaseDate = new Date(date);
-    var currentDate = new Date('2018-7-4');
+    var currentDate = new Date('2018-7-09');
+    await delay(1000);
     if (releaseDate >= currentDate && !artistsNames.includes(artistName)) {
       logger.info(`Adding New Artist & New Album:  ${artistAlbum} `)
       await newReleases.push(artistAlbum);
       await insertArtist(artistName, artistAlbumName)
     } else if (releaseDate >= currentDate && !albumNames.find(el => el[0] === artistAlbumName)) {
       logger.info(`Adding new Album to Database:  ${artistAlbumName}`);
-      await newRelease.push(artistAlbum);
+      await newReleases.push(artistAlbum);
       await updateArtistAlbums(artistName, artistAlbumName)
     }
   }

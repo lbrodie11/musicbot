@@ -3,9 +3,6 @@ FROM laqwanbrodie/musiclackey:latest
 # Create app directory
 WORKDIR /usr/src/app
 
-# Set env variables
-# ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./

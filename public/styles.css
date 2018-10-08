@@ -29,7 +29,7 @@ h1, h2, h3, h4 {
     display: block;
     margin-left: auto;
     margin-top: 50px;
-    margin-right: 380px;
+    margin-right: 310px;
     height: 140px;
     width: 140px;
     box-shadow: rgba(0, 0, 0, 0.55) 0 20px 68px;
@@ -55,7 +55,7 @@ h1, h2, h3, h4 {
 .branding h1 {
     display: block;
     margin-left: auto;
-    margin-right: 320px;
+    margin-right: 255px;
     font-size: 30px;
     width: 220px;
 }
@@ -68,7 +68,7 @@ h1, h2, h3, h4 {
 
 .description {
     font-size: 24px;
-    margin: 20px 10px 20px 60px;
+    margin: 20px 10px 20px 80px;
 }
 
 .libraries {
@@ -139,6 +139,46 @@ h1, h2, h3, h4 {
 
 .footer .year {
     padding: 0 5px;
+}
+
+.footer a {
+    color: red;
+    margin: 0 0 0 5px;
+    text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+
+    .branding .logo {
+        margin-right: 270px;
+    }
+
+    .branding h1 {
+        margin-right: 230px;
+    }
+
+    .description {
+        text-align: center;
+        margin-right: 20px;
+        margin-left: 100px;
+        font-size: 20px;
+    }
+
+    .featured {
+        margin-top: 0px;
+        font-size: 24px;
+        margin-left:100px;
+    }
+
+    .soundcloud {
+        width:77%;
+        margin-left:20px;
+        margin-right:80px;
+    }
+
+    .timeline {
+        width: 100%;
+    }
 }
 
 @media (max-width: 991px) {
@@ -213,11 +253,11 @@ h1, h2, h3, h4 {
 @media (max-width: 433px) {
 
     .branding .logo {
-        margin-right: 146px;
+        margin-right: 130px;
     }
 
     .branding h1 {
-        margin-right: 100px;
+        margin-right: 80px;
     }
 
     .description {

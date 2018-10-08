@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Artist = mongoose.model('Artist', {
   artistName: String,
   albums: [String]

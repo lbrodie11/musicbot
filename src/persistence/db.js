@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
 import { getLogger } from 'log4js';
 
+const mongoose = require('mongoose');
 const logger = getLogger('Database');
-
 const { DB_URL, DB_USER, DB_PASSWORD } = process.env;
 
 mongoose.set('debug', logger.debug.bind(logger, 'EXEC'));

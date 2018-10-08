@@ -6,15 +6,14 @@ import { configure, getLogger } from 'log4js';
 import { initArtistData, removeAllArtistData, removeArtistLastAlbum } from './services/artist';
 import { removeAllTweets, tweetNewAlbumReleases } from './services/twitter';
 import { runReleaseWatcher } from './services/release';
-const logger = getLogger('App');
-const randomString = require('./randomString');
-
 import {
     createAuthorizeURL,
     authorizationCodeGrant,
     setAccessToken,
     setRefreshToken
 } from './api/spotify';
+const logger = getLogger('App');
+const randomString = require('./randomString');
 
 var stateKey = 'spotify_auth_state';
 
@@ -106,7 +105,7 @@ const argv = yargs
                 alias: 's',
                 type: 'string',
                 description: 'Cron style schedule',
-                default: '*/30 * * * *'
+                default: '*/220 * * * *'
             }
         },
         ({ debug, schedule }) => {

@@ -1,5 +1,4 @@
 import { getLogger } from 'log4js';
-
 import {
   getTweets,
   deleteTweet,
@@ -7,7 +6,6 @@ import {
 } from '../api/twitter';
 
 const logger = getLogger('Twitter Service');
-
 const { TWITTER_USER_ID } = process.env;
 
 export const removeAllTweets = async () => {
@@ -39,26 +37,24 @@ const buildTweetStatus = (albumInfo) => {
     🎵 New Album Release 🔥 
     
     📅 ${releaseDate}
-    
     🎙️ Artist: ${artistName}
-    
     💿 Album: ${albumName}
-    
+
+    🏷️ #music #spotify #album #musiclackey #${artistName.replace(/ /g, '')}
+
     🔗 ${spotifyUrl}
-    #music #album #musiclackey #${artistName.replace(/ /g, '')}
     `;
   }else {
     return `
     🎵 New Single Release 🔥 
     
     📅 ${releaseDate}
-    
     🎙️ Artist: ${artistName}
-    
     💿 Single: ${albumName}
-    
+
+    🏷️ #music #spotify #single #musiclackey #${artistName.replace(/ /g, '')}
+
     🔗 ${spotifyUrl}
-    #music #single #musiclackey #${artistName.replace(/ /g, '')}
     `;
   }
 
