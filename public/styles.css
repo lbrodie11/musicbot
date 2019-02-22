@@ -25,6 +25,21 @@ h1, h2, h3, h4 {
     margin: 0;
 }
 
+.branding {
+    backface-visibility: hidden;
+    animation-name: moveInLeft;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+}
+
+.content {
+    backface-visibility: hidden;
+    animation-name: moveInRight;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+}
+
+
 .branding .logo {
     display: block;
     margin-left: auto;
@@ -33,7 +48,11 @@ h1, h2, h3, h4 {
     height: 140px;
     width: 140px;
     box-shadow: rgba(0, 0, 0, 0.55) 0 20px 68px;
-    border-radius: 73px
+    border-radius: 73px;
+
+    animation-name: moveInLeft;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
 }
 
 .logoT{
@@ -292,4 +311,38 @@ h1, h2, h3, h4 {
 .form-control:focus {
     border-color: #FF9800;
     box-shadow: 0 0 0 0.2rem rgba(255, 222, 36, 0.25);
+}
+
+@keyframes moveInLeft {
+    
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    80% {
+        transform: translateX(15px)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInRight {
+    
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    80% {
+        transform: translateX(-15px)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
 }

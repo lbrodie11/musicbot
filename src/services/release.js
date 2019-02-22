@@ -36,6 +36,7 @@ export const runReleaseWatcher = cronSchedule => {
                 setTimeout(function () {
                     counterRelease++
                     var albumInfo = {
+                        albumArt: element.body.items[0].images[1].url,
                         albumName: element.body.items[0].name,
                         releaseDate: element.body.items[0].release_date,
                         artistName: element.body.items[0].artists[0].name,

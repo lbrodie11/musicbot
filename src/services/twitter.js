@@ -30,12 +30,12 @@ export const tweetNewAlbumReleases = async (albumInfo) => {
 };
 
 const buildTweetStatus = (albumInfo) => {
-  const { releaseDate, artistName, albumName, spotifyUrl, albumType } = albumInfo;
+  const { albumArt, releaseDate, artistName, albumName, spotifyUrl, albumType } = albumInfo;
   logger.info(`Album Type: ${albumType}`)
   if(albumType === 'album') {
     return `
     🎵 New Album Release 🔥 
-    
+
     📅 ${releaseDate}
     🎙️ Artist: ${artistName}
     💿 Album: ${albumName}
@@ -43,6 +43,7 @@ const buildTweetStatus = (albumInfo) => {
     🏷️ #music #spotify #album #musiclackey #${artistName.replace(/ /g, '')}
 
     🔗 ${spotifyUrl}
+    ${albumArt}
     `;
   }else {
     return `
